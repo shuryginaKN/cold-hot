@@ -1,0 +1,25 @@
+{
+    "name": "ks561/cold-hot",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ks561\\ColdHot\\": "src/"
+        },
+        "files": [
+            "src/Controller.php",
+            "src/View.php"
+        ]
+    },
+    "bin": [
+        "bin/cold-hot"
+    ],
+    "authors": [
+        {
+            "name": "Ksenia",
+            "email": "ks5614741@gmail.com"
+        }
+    ],
+    "require": {
+        "wp-cli/php-cli-tools": "^0.12.0"
+    }
+}
