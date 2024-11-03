@@ -4,5 +4,26 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use shuryginaKN\cold_hot\Controller;
+use shuryginaKN\cold_hot\Database;
+use shuryginaKN\cold_hot\View;
 
-Controller\startGame();
+$db = new Database();
+$db->createGameTable();
+$db->createMovesTable();
+
+View\showFeedback("Choose an action:");
+View\showFeedback("1. Start a new game");
+View\showFeedback("2. View game history");
+$choice = View\getUserInput("Enter your choice");
+
+switch ($choice) {
+    case '1':
+        Controller\startGame();
+        break;
+    case '2':
+        Controller\showGameHistory();
+        break;
+    default:
+        View\showFeedback("Invalid choice");
+        break;
+}

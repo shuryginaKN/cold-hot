@@ -1,6 +1,8 @@
 {
     "name": "ks561/cold-hot",
+    "description": "Implementation of the game \"Cold-hot\"",
     "type": "project",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Ks561\\ColdHot\\": "src/"
@@ -8,7 +10,8 @@
         "files": [
             "src/Controller.php",
             "src/View.php",
-            "src/Game.php"
+            "src/Game.php",
+            "src/Database.php"
         ]
     },
     "bin": [
@@ -20,6 +23,7 @@
             "email": "ks5614741@gmail.com"
         }
     ],
+    "minimum-stability": "stable",
     "require": {
         "wp-cli/php-cli-tools": "^0.12.0"
     },

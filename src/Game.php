@@ -8,8 +8,10 @@ class Game
     private $attempts = 0;
     private $lastGuess;
 
+
     public function __construct()
     {
+        $this->database = $database;
         $this->targetNumber = $this->generateUniqueThreeDigitNumber();
     }
 
@@ -26,6 +28,33 @@ class Game
         return $number;
     }
 
+    private function getComparisonFeedback($difference, $previousDifference)
+    {
+        if ($difference < $previousDifference) {
+            return ' and getting closer';
+        } elseif ($difference > $previousDifference) {
+            return ' and getting farther';
+        }
+        return '';
+    }
+
+    private function getFeedback($difference)
+    {
+        if ($difference > 50) {
+            return 'Very cold';
+        } elseif ($difference > 20) {
+            return 'Cold';
+        } elseif ($difference > 10) {
+            return 'Warm';
+        } elseif ($difference > 5) {
+            return 'Hot';
+        } elseif ($difference > 0) {
+            return 'Very hot';
+        } else {
+            return 'Correct';
+        }
+    }
+
     public function checkGuess(int $guess): string
     {
         if ($guess < 100 || $guess > 999 || count(array_unique(str_split((string)$guess))) < 3) {
@@ -35,33 +64,18 @@ class Game
         $this->attempts++;
         $difference = abs($guess - $this->targetNumber);
 
-        if ($difference > 50) {
-            $feedback = 'Very cold';
-        } elseif ($difference > 20) {
-            $feedback = 'Cold';
-        } elseif ($difference > 10) {
-            $feedback = 'Warm';
-        } elseif ($difference > 5) {
-            $feedback = 'Hot';
-        } elseif ($difference > 0) {
-            $feedback = 'Very hot';
-        } else {
-            $feedback = 'Correct';
-        }
+        $feedback = $this->getFeedback($difference);
 
         if (isset($this->lastGuess)) {
             $previousDifference = abs($this->lastGuess - $this->targetNumber);
-            if ($difference < $previousDifference) {
-                $feedback .= ' and getting closer';
-            } elseif ($difference > $previousDifference) {
-                $feedback .= ' and getting farther';
-            }
+            $feedback .= $this->getComparisonFeedback($difference, $previousDifference);
         }
 
         $this->lastGuess = $guess;
 
         return $feedback;
     }
+
 
     public function isCorrectGuess(int $guess): bool
     {
@@ -71,5 +85,10 @@ class Game
     public function getAttempts(): int
     {
         return $this->attempts;
+    }
+
+    public function getTargetNumber()
+    {
+        return $this->targetNumber;
     }
 }
