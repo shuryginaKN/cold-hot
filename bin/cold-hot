@@ -11,9 +11,31 @@ $db = new Database();
 $db->createGameTable();
 $db->createMovesTable();
 
-View\showFeedback("Choose an action:");
-View\showFeedback("1. Start a new game");
-View\showFeedback("2. View game history");
+$options = getopt("nlh:r:", ["new", "list", "help", "replay:"]);
+
+if (isset($options['h']) || isset($options['help'])) {
+    View\showHelp();
+    exit;
+}
+
+if (isset($options['l']) || isset($options['list'])) {
+    Controller\showGameHistory();
+    exit;
+}
+
+if (isset($options['r']) || isset($options['replay'])) {
+    $gameId = (int)$options['r'];
+    $game = $db->getGameById($gameId);
+    $moves = $db->getMovesByGameId($gameId);
+    if ($game) {
+        View\showGameReplay($game, $moves);
+    } else {
+        View\showFeedback("Game with ID $gameId not found.");
+    }
+    exit;
+}
+
+View\showActionMenu();
 $choice = View\getUserInput("Enter your choice");
 
 switch ($choice) {
