@@ -7,7 +7,6 @@ use cli;
 
 class Database
 {
-
     public function __construct()
     {
 
@@ -64,7 +63,6 @@ class Database
         $game->result = $data['result'];
 
         return R::store($game);
-
     }
 
     public function updateGame(int $id, array $data)
@@ -75,10 +73,10 @@ class Database
             $game->attempts = $data['attempts'];
             $game->result = $data['result'];
             $game->end_time = $data['end_time'];
-    
+
             return R::store($game);
         }
-    
+
         return null;
     }
 
@@ -86,11 +84,11 @@ class Database
     {
         $stmt = R::getWriter()->getConnection()->prepare($sql);
         $stmt->execute($data);
-        
+
         if (strpos($sql, 'INSERT') === 0) {
             return R::getWriter()->getConnection()->lastInsertId();
         }
-    
+
         return $stmt->rowCount();
     }
 
